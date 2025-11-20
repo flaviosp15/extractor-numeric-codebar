@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: barcode-extractor
+    env: python
+    plan: free
+    buildCommand: |
+      apt-get update
+      apt-get install -y tesseract-ocr tesseract-ocr-por poppler-utils
+      pip install -r server/requirements.txt
+    startCommand: gunicorn server.index:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: TESSERACT_CMD
+        value: /usr/bin/tesseract
