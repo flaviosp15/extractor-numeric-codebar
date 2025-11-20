@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Extrator de Códigos de Barras</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Extrator de Códigos de Barras</h1>
+        <p class="description">
+          Faça upload de arquivos PDF para extrair automaticamente os códigos de barras contidos neles. Suporta múltiplos arquivos
+          simultaneamente.
+        </p>
+      </header>
+
+      <section class="upload-section">
+        <div class="drop-area" id="dropArea">
+          <i>📁</i>
+          <h3>Arraste e solte seus arquivos PDF aqui</h3>
+          <p>ou</p>
+          <button class="btn" id="browseBtn">Selecionar Arquivos</button>
+          <input type="file" id="fileInput" class="file-input" accept=".pdf" multiple />
+        </div>
+
+        <div class="file-list" id="fileList"></div>
+
+        <div class="actions">
+          <button class="btn btn-success" id="processBtn" disabled>Processar Arquivos</button>
+          <button class="btn btn-danger" id="clearBtn" disabled>Limpar Lista</button>
+        </div>
+
+        <div class="progress-container" id="progressContainer" style="display: none">
+          <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+          </div>
+          <div class="progress-text" id="progressText">Processando 0 de 0 arquivos</div>
+        </div>
+      </section>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Processando seus arquivos, por favor aguarde...</p>
+      </div>
+
+      <section class="results-section" id="resultsSection">
+        <div class="results-header">
+          <h2>Resultados</h2>
+          <button class="btn" id="exportBtn">Exportar para CSV</button>
+        </div>
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>Arquivo</th>
+              <th>Código de Barras</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody">
+            <!-- Os resultados serão inseridos aqui -->
+          </tbody>
+        </table>
+      </section>
+
+      <footer>
+        <p>Extrator de Códigos de Barras &copy; 2025 - Desenvolvido por <a href="#">Flávio Pereira</a></p>
+      </footer>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+  </body>
+</html>
