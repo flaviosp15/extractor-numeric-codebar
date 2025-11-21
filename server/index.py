@@ -21,17 +21,6 @@ import subprocess
 
 load_dotenv()
 
-if os.environ.get('RENDER', None):
-    try:
-        # Verifica se o Tesseract está instalado
-        subprocess.run(['tesseract', '--version'], check=True, capture_output=True)
-        print("Tesseract já está instalado")
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        print("Instalando Tesseract...")
-        subprocess.run(['apt-get', 'update'], check=True)
-        subprocess.run(['apt-get', 'install', '-y', 'tesseract-ocr', 'tesseract-ocr-por'], check=True)
-        print("Tesseract instalado com sucesso")
-
 class Settings:
     def __init__(self):
         self.environment = os.getenv("ENVIRONMENT", "development")
