@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
       progressText.textContent = `Processando ${processedFiles} de ${totalFiles} arquivos`;
 
       try {
-        const response = await fetch('http://localhost:8000/api/extract-barcodes', {
+        const response = await fetch('https://extractor-numeric-codebar.onrender.com/api/extract-barcodes', {
           method: 'POST',
           body: formData,
         });
