@@ -1,14 +1,9 @@
 services:
   - type: web
     name: barcode-extractor
-    env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn server.index:app --host 0.0.0.0 --port $PORT
+    docker:
+      dockerfile: Dockerfile
     envVars:
       - key: ENVIRONMENT
         value: production
-    aptPackages:
-      - tesseract-ocr
-      - tesseract-ocr-por
-      - poppler-utils
