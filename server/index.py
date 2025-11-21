@@ -4,8 +4,11 @@ from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.gzip import GZipMiddleware
 from PIL import Image
+try:
+    import pymupdf
+except ImportError:
+    import fitz as pymupdf
 import pytesseract
-import pymupdf
 import io
 import os
 import re
@@ -26,7 +29,7 @@ class Settings:
         self.port = int(os.getenv("PORT", "8000"))
         self.workers = int(os.getenv("WORKERS", "1"))
         self.max_file_size = int(os.getenv("MAX_FILE_SIZE", "10485760"))
-        self.tesseract_cmd = os.getenv("TESSERACT_CMD", "C:\Program Files\Tesseract-OCR\\tesseract.exe")
+        self.tesseract_cmd = os.getenv("TESSERACT_CMD", "C:\\Program Files\\Tesseract-OCR\\tesseract.exe")
 
         if self.environment == "production":
             self.allowed_origins = os.getenv("ALLOWED_ORIGINS")
