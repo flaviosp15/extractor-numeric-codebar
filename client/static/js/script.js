@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
       progressText.textContent = `Processando ${processedFiles} de ${totalFiles} arquivos`;
 
       try {
-        const response = await fetch('https://extractor-numeric-codebar.onrender.com/api/extract-barcodes', {
+        const response = await fetch('http://localhost:8000/api/extract-barcodes', {
           method: 'POST',
           body: formData,
         });
@@ -260,20 +260,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function exportToCSV() {
     const rows = [];
-    const headers = ['Arquivo', 'Código de Barras', 'Status'];
+    const headers = ['Arquivo', 'Codigo_de_Barras', 'Status'];
     rows.push(headers.join(';'));
 
     const tableRows = resultsBody.querySelectorAll('tr');
 
     tableRows.forEach((row) => {
       const cells = row.querySelectorAll('td');
-      const rowData = Array.from(cells).map((cell) => cell.textContent);
+      const rowData = Array.from(cells).map((cell, i) => (i === 1 ? '="' + cell.textContent + '"' : cell.textContent));
       rows.push(rowData.join(';'));
     });
 
     const csvContent = rows.join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=latin1;' });
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    console.log(blob);
     const url = URL.createObjectURL(blob);
+    console.log(url);
     const link = document.createElement('a');
     link.setAttribute('href', url);
     link.setAttribute('download', 'codigos_barras.csv');
