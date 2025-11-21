@@ -70,7 +70,7 @@ if settings.environment == "production":
     app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 if settings.environment == "production":
-    frontend_path = "/client"
+    frontend_path = "./client"
 else:
     frontend_path = os.path.join(os.path.dirname(__file__), "..", "client")
 
