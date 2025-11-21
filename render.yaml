@@ -3,13 +3,8 @@ services:
     name: barcode-extractor
     env: python
     plan: free
-    buildCommand: |
-      apt-get update
-      apt-get install -y tesseract-ocr tesseract-ocr-por poppler-utils
-      pip install -r server/requirements.txt
-    startCommand: uvicorn server.index:app --bind 0.0.0.0:$PORT
+    buildCommand: chmod +x render-build.sh && ./render-build.sh
+    startCommand: uvicorn server.index:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: ENVIRONMENT
         value: production
-      - key: TESSERACT_CMD
-        value: /usr/bin/tesseract
