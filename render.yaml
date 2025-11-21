@@ -7,7 +7,7 @@ services:
       apt-get update
       apt-get install -y tesseract-ocr tesseract-ocr-por poppler-utils
       pip install -r server/requirements.txt
-    startCommand: gunicorn server.index:app --bind 0.0.0.0:$PORT
+    startCommand: uvicorn server.index:app --bind 0.0.0.0:$PORT
     envVars:
       - key: ENVIRONMENT
         value: production
