@@ -114,26 +114,6 @@ def pdf_to_text(pdf_path: str) -> str:
         logger.error(f"Erro no pdf_to_text: {str(e)}")
         return f"Erro ao processar PDF: {str(e)}"
 
-def safe_delete_file(file_path: str, max_retries: int = 5):
-    """Tenta excluir um arquivo com múltiplas tentativas"""
-    for attempt in range(max_retries):
-        try:
-            if os.path.exists(file_path):
-                os.unlink(file_path)
-                logger.info(f"Arquivo temporário excluído: {file_path}")
-                return True
-        except PermissionError as e:
-            if attempt < max_retries - 1:
-                logger.warning(f"Tentativa {attempt + 1} falhou, aguardando...")
-                time.sleep(0.1 * (attempt + 1))
-            else:
-                logger.error(f"Não foi possível excluir {file_path} após {max_retries} tentativas: {e}")
-                return False
-        except Exception as e:
-            logger.error(f"Erro ao excluir {file_path}: {e}")
-            return False
-    return False
-
 def process_single_pdf(file_content: bytes, filename: str) -> Dict:
     """Processa um único PDF e retorna resultado"""
     temp_file_path = None
@@ -187,9 +167,29 @@ def process_single_pdf(file_content: bytes, filename: str) -> Dict:
         if temp_file_path:
             safe_delete_file(temp_file_path)
 
+def safe_delete_file(file_path: str, max_retries: int = 5):
+    """Tenta excluir um arquivo com múltiplas tentativas"""
+    for attempt in range(max_retries):
+        try:
+            if os.path.exists(file_path):
+                os.unlink(file_path)
+                logger.info(f"Arquivo temporário excluído: {file_path}")
+                return True
+        except PermissionError as e:
+            if attempt < max_retries - 1:
+                logger.warning(f"Tentativa {attempt + 1} falhou, aguardando...")
+                time.sleep(0.1 * (attempt + 1))
+            else:
+                logger.error(f"Não foi possível excluir {file_path} após {max_retries} tentativas: {e}")
+                return False
+        except Exception as e:
+            logger.error(f"Erro ao excluir {file_path}: {e}")
+            return False
+    return False
+
 def get_barcode_number(text: str) -> Optional[str]:
     """Extrai código de barras do texto usando regex"""
-    pattern = r'^(\d{5}(\.)?\d{5}(\s)?\d{5}(\.)?\d{6}(\s)?\d{5}(\.)?\d{6}(\s)?\d(\s)?\d{14})$'
+    pattern = r'(\d{5}(\.)?\d{5}(\s)?\d{5}(\.)?\d{6}(\s)?\d{5}(\.)?\d{6}(\s)?\d(\s)?\d{14})'
 
     match = re.search(pattern, text, re.MULTILINE)
     
